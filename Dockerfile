@@ -22,9 +22,7 @@ RUN adduser --disabled-password --gecos "" --uid 1337 \
 
 
 # Copy stuff
-# COPY certs /usr/local/share/ca-certificates
 COPY configuration/dotfiles /tmp/.config
-# COPY configuration/ssh /container/ssh
 COPY configuration/backgrounds /usr/share/backgrounds
 COPY scripts /usr/local/bin
 
@@ -57,18 +55,6 @@ RUN git clone https://github.com/vinceliuice/Layan-gtk-theme /container/layan \
   && ./container/layan/install.sh \
   && ./container/tela/install.sh
 
-# Install and configure LaTeX and Atom Editor
-RUN wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add - \
-&& echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list \
-&& apt-get clean && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  atom \
-  texlive-full \
-|| DEBIAN_FRONTEND=noninteractive apt-get install -f \
-&& apm install \
-  latex \
-  pdf-view \
-  pen-paper-coffee-syntax
-
 # Cleanup: make scripts executable and remove clutter from install
 RUN chmod -R 755 /usr/local/bin \
   && update-ca-certificates \
@@ -78,20 +64,9 @@ RUN chmod -R 755 /usr/local/bin \
   && ln -s /container/noVNC/utils/launch.sh /usr/local/bin/novnc \
   && rm -rf /tmp/.config
 
-
-
-# RUN wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg \
-#   && echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/riot-im.list \
-#   && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-#   firefox-esr
-  # && get_starkiller.sh
-
-
 # Only in dev mode: allow VNC_USER to sudo
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y sudo \
   && echo "${VNC_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-
 
 USER 1337
 
