@@ -1,0 +1,16 @@
+#!/bin/bash
+# readiness probe for kubernetes
+# the probe checks the vnc log for the word accepted; this means that a connection has been established with a client.
+# the probe fails if a connection entry is in the logs
+
+if grep -iq "^\ Connections\: closed" /home/user/.vnc/*.log
+then
+  exit 1
+else
+  if grep -iq "Fatal server error" /home/user/.vnc/*.log
+  then
+    exit 1
+  else
+    exit 0
+  fi
+fi

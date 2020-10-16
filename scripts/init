@@ -1,0 +1,24 @@
+#!/bin/bash
+
+GEOMETRY_ARGS="-geometry ${SCREEN_RESOLUTION}"
+
+# Create some quick scripts
+cat <<EOF > /usr/local/bin/burp
+#!/bin/sh
+/burp/burpsuite
+EOF
+
+
+
+if [ "${#VNC_PASSWORD}" -eq 0 ]; then
+  SECURITY_ARGS="-SecurityTypes None"
+else
+  echo "${VNC_PASSWORD}" | vncpasswd -f >> ~/.vnc/passwd
+  chmod 600 ~/.vnc/passwd
+  SECURITY_ARGS=""
+fi
+
+cd ${HOME}
+# service syslog-ng start
+vncserver ${GEOMETRY_ARGS} ${SECURITY_ARGS} -xstartup /usr/local/bin/xstartup \
+  && novnc --vnc localhost:5901
