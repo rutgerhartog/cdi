@@ -1,5 +1,5 @@
 FROM rutgerhartog/cdi:latest
-
+USER root
 # Install atom and texlive-full
 RUN wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add - \
 && echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list \
@@ -7,9 +7,8 @@ RUN wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add - \
   atom \
   texlive-full
 
+USER 1337
 # Install atom packages
 RUN apm install \
   latex \
   pdf-view
-
-
