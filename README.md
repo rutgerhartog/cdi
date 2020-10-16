@@ -73,4 +73,4 @@ spec:
 ```
 Whenever you connect to one of the containers, the readiness probe fails and other users cannot access the container currently used. Whenever you log out or close the tab, the liveness probe will fail, which tells Kubernetes to restart the container.
 
-In production environments, I recommend using some kind of persistence to avoid data loss. Furthermore, for security reasons, I also recommend using a reverse proxy to enforce TLS and make sure users are authenticated before accessing this image.
+In production environments, I recommend using some kind of persistence to avoid data loss. Furthermore, for security reasons, I also recommend using a reverse proxy to enforce TLS and make sure users are authenticated before accessing this container.
