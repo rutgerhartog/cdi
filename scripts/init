@@ -1,14 +1,12 @@
 #!/bin/bash
+# This is the startup script for the CDI container
+# It moves some config files around (basically in order to avoid rights issues with k8s configMaps and Secrets), starts the VNC server on localhost and noVNC on all interfaces, calling back to the VNC server.
+
+cp /container/.config/xfce4 "/home/${VNC_USER}/.config/xfce4"
+cp /container/.ssh/* /home/${VNC_USER}/.ssh/*
+chmod 0600 /home/${VNC_USER}/.ssh/*
 
 GEOMETRY_ARGS="-geometry ${SCREEN_RESOLUTION}"
-
-# Create some quick scripts
-cat <<EOF > /usr/local/bin/burp
-#!/bin/sh
-/burp/burpsuite
-EOF
-
-
 
 if [ "${#VNC_PASSWORD}" -eq 0 ]; then
   SECURITY_ARGS="-SecurityTypes None"
@@ -19,6 +17,5 @@ else
 fi
 
 cd ${HOME}
-# service syslog-ng start
 vncserver ${GEOMETRY_ARGS} ${SECURITY_ARGS} -xstartup /usr/local/bin/xstartup \
   && novnc --vnc localhost:5901
