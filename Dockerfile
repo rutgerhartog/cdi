@@ -19,7 +19,7 @@ ENV SCREEN_RESOLUTION "1920x1200"
 RUN adduser --disabled-password --gecos "" --uid 1337 \
  --shell ${VNC_USER_SHELL} ${VNC_USER} \
  && mkdir -p /home/${VNC_USER}/.config \
- && mkdir -p /home/${VNC_USER}/.ssh 
+ && mkdir -p /home/${VNC_USER}/.ssh
 
 
 # Copy stuff
@@ -65,7 +65,6 @@ RUN git clone https://github.com/vinceliuice/Layan-gtk-theme /container/layan \
 # Cleanup: make scripts executable and remove clutter from install
 RUN chmod -R 755 /usr/local/bin \
   && update-ca-certificates \
-  && mv /tmp/.config/xfce4 "/home/${VNC_USER}/.config/xfce4" \
   && chown -R "${VNC_USER}" "/home/${VNC_USER}" \
   && chown -R "${VNC_USER}" /container/noVNC \
   && ln -s /container/noVNC/utils/launch.sh /usr/local/bin/novnc \
