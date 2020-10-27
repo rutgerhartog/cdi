@@ -1,19 +1,19 @@
 FROM debian:latest
 
-ARG build_date="not set"
+ARG BUILD_DATE="not set"
 ARG VNC_USER="user"
 ARG VNC_USER_SHELL="/bin/bash"
 
 LABEL maintainer="rutgerhartog"
-LABEL org.label-schema.name="debian-desktop"
+LABEL org.label-schema.name="cdi"
 LABEL org.label-schema.build-date=$BUILD_DATE
 LABEL org.label-schema.docker.cmd="docker run -d -p 6080:6080"
-LABEL org.label-schema.description="A containerized desktop with VNC, based on Debian"
+LABEL org.label-schema.description="A containerised desktop, based on Debian and accessible through your web browser"
 
 
 ENV VNC_PASSWORD ""
 ENV SCREEN_RESOLUTION "1920x1200"
-
+ENV VNC_USER=${VNC_USER}
 
 # Create user
 RUN adduser --disabled-password --gecos "" --uid 1337 \
@@ -54,7 +54,8 @@ RUN apt-get clean && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get in
 
 # Install noVNC and websockify
 RUN git clone https://github.com/novnc/noVNC /container/noVNC/ \
-  && git clone https://github.com/novnc/websockify /container/noVNC/utils/websockify
+  && git clone https://github.com/novnc/websockify /container/noVNC/utils/websockify \
+  && ln -s /container/noVNC/utils/launch.sh /usr/local/bin/novnc
 
 # Install icon themes
 RUN git clone https://github.com/vinceliuice/Layan-gtk-theme /container/layan \
@@ -66,9 +67,7 @@ RUN git clone https://github.com/vinceliuice/Layan-gtk-theme /container/layan \
 RUN chmod -R 755 /usr/local/bin \
   && update-ca-certificates \
   && chown -R "${VNC_USER}" "/home/${VNC_USER}" \
-  && chown -R "${VNC_USER}" /container/noVNC \
-  && ln -s /container/noVNC/utils/launch.sh /usr/local/bin/novnc \
-  && rm -rf /tmp/.config
+  && chown -R "${VNC_USER}" /container/noVNC
 
 # Only in dev mode: allow VNC_USER to sudo
 RUN if [ "${#DEV_MODE}" ! -eq 0 ]; then apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y sudo \

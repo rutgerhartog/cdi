@@ -3,7 +3,7 @@
 # The probe checks the vnc log for lines starting with the string ' Connections: accepted'; this means that a connection has been established with a client.
 # Note: the probe fails if a connection entry is in the logs
 
-if grep -iq "^\ Connections\: accepted" /home/user/.vnc/*.log
+if grep -iq "^\ Connections\: accepted" /home/${VNC_USER}/.vnc/*.log
 then
   exit 1
 else

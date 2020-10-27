@@ -2,11 +2,11 @@
 # liveness probe for kubernetes
 # The probe checks the vnc log for fatal errors or closed connections
 
-if grep -iq "^\ Connections\: closed" /home/user/.vnc/*.log
+if grep -iq "^\ Connections\: closed" /home/${VNC_USER}/.vnc/*.log
 then
   exit 1
 else
-  if grep -iq "Fatal server error" /home/user/.vnc/*.log
+  if grep -iq "Fatal server error" /home/${VNC_USER}/.vnc/*.log
   then
     exit 1
   else
