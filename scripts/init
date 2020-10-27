@@ -2,7 +2,7 @@
 # This is the startup script for the CDI container
 # It moves some config files around (basically in order to avoid rights issues with k8s configMaps and Secrets), starts the VNC server on localhost and noVNC on all interfaces, calling back to the VNC server.
 
-cp -r /container/.config/* "/home/${VNC_USER}/.config/*"
+cp -r /container/.config/ "/home/${VNC_USER}/"
 cp /container/.ssh/* /home/${VNC_USER}/.ssh/*
 chmod 0600 /home/${VNC_USER}/.ssh/*
 
