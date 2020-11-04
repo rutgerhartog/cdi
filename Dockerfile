@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM ubuntu:latest
 
 ARG BUILD_DATE="not set"
 ARG VNC_USER="user"
