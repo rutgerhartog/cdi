@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 ARG BUILD_DATE="not set"
 ARG VNC_USER="user"
@@ -31,7 +31,7 @@ COPY scripts /usr/local/bin
 RUN apt-get clean && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates
 
 # Use an updated sources list for apt
-# COPY sources.list /etc/apt/sources.list
+COPY sources.list /etc/apt/sources.list
 
 # Install packages
 RUN apt-get clean && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
