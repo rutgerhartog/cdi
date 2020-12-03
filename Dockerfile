@@ -46,6 +46,7 @@ RUN apt-get clean && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get in
   net-tools \
   procps \
   python \
+  sudo \
   tigervnc-standalone-server \
   unzip \
   wget \
@@ -69,9 +70,7 @@ RUN chmod -R 755 /usr/local/bin \
   && chown -R "${VNC_USER}" "/home/${VNC_USER}" \
   && chown -R "${VNC_USER}" /container/noVNC
 
-# Only in dev mode: allow VNC_USER to sudo
-RUN if [ "${#DEV_MODE}" ! -eq 0 ]; then apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y sudo \
-  && echo "${VNC_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; fi
+RUN echo "${VNC_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Drop privileges and run
 USER 1337
