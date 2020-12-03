@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM ubuntu:latest
 
 ARG BUILD_DATE="not set"
 ARG VNC_USER="user"
@@ -8,7 +8,7 @@ LABEL maintainer="rutgerhartog"
 LABEL org.label-schema.name="cdi"
 LABEL org.label-schema.build-date=$BUILD_DATE
 LABEL org.label-schema.docker.cmd="docker run -d -p 6080:6080"
-LABEL org.label-schema.description="A containerised desktop, based on Debian and accessible through your web browser"
+LABEL org.label-schema.description="A containerised desktop, based on Ubuntu and accessible through your web browser"
 
 
 ENV VNC_PASSWORD ""
@@ -31,7 +31,7 @@ COPY scripts /usr/local/bin
 RUN apt-get clean && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates
 
 # Use an updated sources list for apt
-COPY sources.list /etc/apt/sources.list
+# COPY sources.list /etc/apt/sources.list
 
 # Install packages
 RUN apt-get clean && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
