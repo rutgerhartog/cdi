@@ -70,9 +70,6 @@ RUN chmod -R 755 /usr/local/bin \
   && chown -R "${VNC_USER}" "/home/${VNC_USER}" \
   && chown -R "${VNC_USER}" /container/noVNC
 
-# Only in dev mode: allow VNC_USER to sudo
-RUN  echo "${VNC_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoer
-
 # Drop privileges and run
 USER 1337
 WORKDIR /home/${VNC_USER}
