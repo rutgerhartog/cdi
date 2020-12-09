@@ -69,7 +69,13 @@ spec:
           limits:
             memory: "4000Mi"
             cpu: "1000m"
-
+        volumeMounts:
+          - name: sharedmemory
+            mountPath: /dev/shm          
+      volumes:
+      - name: sharedmemory
+        hostPath:
+          path: /dev/shm
 ```
 Whenever you connect to one of the containers, the readiness probe fails and other users cannot access the container currently used. Whenever you log out or close the tab, the liveness probe will fail, which tells Kubernetes to restart the container.
 
