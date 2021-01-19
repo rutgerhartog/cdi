@@ -2,20 +2,16 @@
 # This is the startup script for the CDI container
 # It moves some config files around (basically in order to avoid rights issues with k8s configMaps and Secrets), starts the VNC server on localhost and noVNC on all interfaces, calling back to the VNC server.
 
-cp -r /container/.config/ "/home/${VNC_USER}/"
-cp /container/.ssh/* /home/${VNC_USER}/.ssh/*
-chmod 0600 /home/${VNC_USER}/.ssh/*
+# cp -r /container/.config/ "/home/${VNC_USER}/"
+# cp /container/.ssh/* /home/${VNC_USER}/.ssh/*
+# chmod 0600 /home/${VNC_USER}/.ssh/*
 
 GEOMETRY_ARGS="-geometry ${SCREEN_RESOLUTION}"
 
-if [ "${#VNC_PASSWORD}" -eq 0 ]; then
-  SECURITY_ARGS="-SecurityTypes None"
-else
-  echo "${VNC_PASSWORD}" | vncpasswd -f >> ~/.vnc/passwd
-  chmod 600 ~/.vnc/passwd
-  SECURITY_ARGS=""
-fi
+
+echo "${VNC_PASSWORD}" | vncpasswd -f >> ~/.vnc/passwd
+chmod 660 ~/.vnc/passwd
+
 
 cd ${HOME}
-vncserver ${GEOMETRY_ARGS} ${SECURITY_ARGS} -xstartup /usr/local/bin/xstartup \
-  && novnc --vnc localhost:5901
+vncserver ${GEOMETRY_ARGS} -xstartup /usr/local/bin/xstartup -localhost no
