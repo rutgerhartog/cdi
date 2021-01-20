@@ -12,6 +12,7 @@ LABEL org.label-schema.description="A containerised desktop, based on Debian and
 
 
 ENV VNC_PASSWORD ""
+ENV VNC_ONLY "false"
 ENV SCREEN_RESOLUTION "1920x1200"
 ENV VNC_USER=${VNC_USER}
 

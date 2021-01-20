@@ -12,10 +12,15 @@ if [ "${#VNC_PASSWORD}" -eq 0 ]; then
   SECURITY_ARGS="-SecurityTypes None"
 else
   echo "${VNC_PASSWORD}" | vncpasswd -f >> ~/.vnc/passwd
-  chmod 600 ~/.vnc/passwd
+  chmod 660 ~/.vnc/passwd
   SECURITY_ARGS=""
 fi
 
 cd ${HOME}
-vncserver ${GEOMETRY_ARGS} ${SECURITY_ARGS} -xstartup /usr/local/bin/xstartup \
-  && novnc --vnc localhost:5901
+
+if [ "${VNC_ONLY}" == "true" ]; then
+  vncserver ${GEOMETRY_ARGS} -xstartup /usr/local/bin/xstartup -localhost no && sleep 100000
+else
+  vncserver ${GEOMETRY_ARGS} ${SECURITY_ARGS} -xstartup /usr/local/bin/xstartup \
+    && novnc --vnc localhost:5901
+fi
