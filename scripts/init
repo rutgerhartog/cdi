@@ -5,7 +5,6 @@
 cp -r /container/.config/ "/home/${VNC_USER}/"
 cp /container/.ssh/* /home/${VNC_USER}/.ssh/*
 chmod 0600 /home/${VNC_USER}/.ssh/*
-mkdir -p /home/${VNC_USER}/.vnc
 
 GEOMETRY_ARGS="-geometry ${SCREEN_RESOLUTION}"
 

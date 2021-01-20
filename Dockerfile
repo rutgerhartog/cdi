@@ -68,6 +68,7 @@ RUN git clone https://github.com/vinceliuice/Layan-gtk-theme /container/layan \
 # Cleanup: make scripts executable and remove clutter from install
 RUN chmod -R 755 /usr/local/bin \
   && update-ca-certificates \
+  && mkdir -p /home/${VNC_USER}/.vnc \
   && chown -R "${VNC_USER}" "/home/${VNC_USER}" \
   && chown -R "${VNC_USER}" /container/noVNC
 
@@ -75,4 +76,5 @@ RUN chmod -R 755 /usr/local/bin \
 USER 1337
 WORKDIR /home/${VNC_USER}
 EXPOSE 6080
+EXPOSE 5901
 CMD ["init"]
